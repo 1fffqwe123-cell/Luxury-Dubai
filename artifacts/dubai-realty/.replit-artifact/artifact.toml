@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Dubai Luxury Real Estate"
+version = "1.0.0"
+id = "artifacts/dubai-realty"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24382
+
+[services.development]
+run = "pnpm --filter @workspace/dubai-realty run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/dubai-realty", "run", "build" ]
+publicDir = "artifacts/dubai-realty/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24382"
+BASE_PATH = "/"
