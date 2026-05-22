@@ -12,9 +12,27 @@ import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import NotFound from "@/pages/not-found";
 
+// 🔥 Firebase import
+import { useEffect } from "react";
+import { db } from "./firebase";
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
+
 const queryClient = new QueryClient();
 
 function Router() {
+  // 🔥 اختبار اتصال Firebase + realtime listener
+  useEffect(() => {
+    const unsub = onSnapshot(collection(db, "properties"), (snapshot) => {
+      console.log("🔥 Live Properties Update:");
+
+      snapshot.forEach((doc) => {
+        console.log(doc.id, doc.data());
+      });
+    });
+
+    return () => unsub();
+  }, []);
+
   return (
     <>
       <Navbar />
